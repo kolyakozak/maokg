@@ -18,22 +18,22 @@ import java.io.IOException;
 import java.util.Map;
 import javax.swing.JFrame;
 
-public class Duck extends JFrame {
+public class Man extends JFrame {
     static SimpleUniverse universe;
     static Scene scene;
     static Map<String, Shape3D> nameMap;
     static BranchGroup root;
     static Canvas3D canvas;
 
-    static TransformGroup wholeDuck;
+    static TransformGroup wholeMan;
     static Transform3D transform3D;
 
-    public Duck() throws IOException{
+    public Man() throws IOException{
         configureWindow();
         configureCanvas();
         configureUniverse();
         addModelToUniverse();
-        setDuckElementsList();
+        setManElementsList();
         addAppearance();
         addImageBackground();
         addLightToUniverse();
@@ -44,7 +44,7 @@ public class Duck extends JFrame {
     }
 
     private void configureWindow()  {
-        setTitle("Duck Animation");
+        setTitle("Man Animation");
         setSize(760,640);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -62,7 +62,7 @@ public class Duck extends JFrame {
     }
 
     private void addModelToUniverse() throws IOException{
-        scene = getSceneFromFile("source_folder//10602_Rubber_Duck_v1_L3.obj");
+        scene = getSceneFromFile("source_folder//man.obj");
         root=scene.getSceneGroup();
     }
 
@@ -80,25 +80,25 @@ public class Duck extends JFrame {
             System.out.printf("Name: %s\n", name);}
     }
 
-    private void setDuckElementsList() {
+    private void setManElementsList() {
         nameMap=scene.getNamedObjects();
         //Print elements of your model:
         printModelElementsList(nameMap);
 
-        wholeDuck = new TransformGroup();
+        wholeMan = new TransformGroup();
 
         transform3D = new Transform3D();
         transform3D.rotX(-Math.PI / 2);
-        wholeDuck.setTransform(transform3D);
+        wholeMan.setTransform(transform3D);
         transform3D.setTranslation(new Vector3f(0, -1.3f, 0));
-        wholeDuck.setTransform(transform3D);
+        wholeMan.setTransform(transform3D);
         transform3D.setScale(0.5f);
-        wholeDuck.setTransform(transform3D);
+        wholeMan.setTransform(transform3D);
 
-        root.removeChild(nameMap.get("10602_rubber_duck_v1"));
-        wholeDuck.addChild(nameMap.get("10602_rubber_duck_v1"));
-        wholeDuck.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        root.addChild(wholeDuck);
+        root.removeChild(nameMap.get("group1"));
+        wholeMan.addChild(nameMap.get("group1"));
+        wholeMan.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        root.addChild(wholeMan);
     }
 
     Texture getTexture(String path) {
@@ -112,23 +112,23 @@ public class Duck extends JFrame {
 
     Material getMaterial() {
         Material material = new Material();
-        material.setAmbientColor ( new Color3f( 0.9f, 0.9f, 0.0f) );
-        material.setDiffuseColor ( new Color3f( 1f, 1f, 1f ) );
-        material.setSpecularColor( new Color3f( 1f, 1f, 1f ) );
-        material.setShininess( 0.3f );
+        material.setAmbientColor ( new Color3f( 0.0f, 0.0f, 0.0f) );
+        material.setDiffuseColor ( new Color3f( .0f, .0f, .0f ) );
+        material.setSpecularColor( new Color3f(5, 8, 8) );
+        material.setShininess( 0.0f );
         material.setLightingEnable(true);
         return material;
     }
 
     private void addAppearance(){
-        Appearance duckAppearance = new Appearance();
-        duckAppearance.setTexture(getTexture("source_folder//app.jpg"));
+        Appearance manAppearance = new Appearance();
+        manAppearance.setTexture(getTexture("source_folder//app.jpg"));
         TextureAttributes texAttr = new TextureAttributes();
         texAttr.setTextureMode(TextureAttributes.COMBINE);
-        duckAppearance.setTextureAttributes(texAttr);
-        duckAppearance.setMaterial(getMaterial());
-        Shape3D duck = nameMap.get("10602_rubber_duck_v1");
-        duck.setAppearance(duckAppearance);
+        manAppearance.setTextureAttributes(texAttr);
+        manAppearance.setMaterial(getMaterial());
+        Shape3D man = nameMap.get("group1");
+        man.setAppearance(manAppearance);
     }
 
     private void addColorBackground(){
@@ -139,7 +139,7 @@ public class Duck extends JFrame {
     }
 
     private void addImageBackground(){
-        TextureLoader t = new TextureLoader("source_folder//lake.jpg", canvas);
+        TextureLoader t = new TextureLoader("source_folder//back.jpg", canvas);
         Background background = new Background(t.getImage());
         background.setImageScaleMode(Background.SCALE_FIT_ALL);
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0),100.0);
@@ -151,7 +151,8 @@ public class Duck extends JFrame {
         ViewingPlatform vp = universe.getViewingPlatform();
         TransformGroup vpGroup = vp.getMultiTransformGroup().getTransformGroup(0);
         Transform3D vpTranslation = new Transform3D();
-        Vector3f translationVector = new Vector3f(0.0F, -1.2F, 6F);
+        Vector3f translationVector = new Vector3f(0.0F, -1.2F, 6.0F);
+        vpTranslation.rotX(Math.PI/30);
         vpTranslation.setTranslation(translationVector);
         vpGroup.setTransform(vpTranslation);
     }
@@ -186,8 +187,8 @@ public class Duck extends JFrame {
 
     public static void main(String[]args){
         try {
-            Duck window = new Duck();
-            AnimationDuck duckMovement = new AnimationDuck(wholeDuck, transform3D, window);
+            Man window = new Man();
+            AnimationMan manMovement = new AnimationMan(wholeMan, transform3D, window);
             window.setVisible(true);
         }
         catch (IOException ex) {

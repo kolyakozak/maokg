@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.vecmath.*;
 
-public class AnimationDuck implements ActionListener, KeyListener {
+public class AnimationMan implements ActionListener, KeyListener {
     private Button go;
-    private TransformGroup wholeDuck;
+    private TransformGroup wholeMan;
     private Transform3D translateTransform;
     private Transform3D rotateTransformX;
     private Transform3D rotateTransformY;
@@ -27,9 +27,9 @@ public class AnimationDuck implements ActionListener, KeyListener {
     private float zloc=0.0f;
     private Timer timer;
 
-    public AnimationDuck(TransformGroup wholeDuck, Transform3D trans, JFrame frame){
+    public AnimationMan(TransformGroup wholeMan, Transform3D trans, JFrame frame){
         go = new Button("Go");
-        this.wholeDuck =wholeDuck;
+        this.wholeMan = wholeMan;
         this.translateTransform=trans;
         this.mainFrame=frame;
 
@@ -37,7 +37,7 @@ public class AnimationDuck implements ActionListener, KeyListener {
         rotateTransformY= new Transform3D();
         rotateTransformZ= new Transform3D();
 
-        Duck.canvas.addKeyListener(this);
+        Man.canvas.addKeyListener(this);
         timer = new Timer(100, this);
 
         Panel p =new Panel();
@@ -74,7 +74,7 @@ public class AnimationDuck implements ActionListener, KeyListener {
             Move();
             translateTransform.setScale(new Vector3d(zoom, zoom, zoom));
             translateTransform.setTranslation(new Vector3f(xloc,yloc,zloc));
-            wholeDuck.setTransform(translateTransform);
+            wholeMan.setTransform(translateTransform);
         }
     }
 
